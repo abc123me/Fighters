@@ -21,9 +21,8 @@ public class DrawCanvas extends Canvas {
 		bg.setColor(Color.white);
 		bg.fillRect(0, 0, getWidth(), getHeight());
 		for(Fighter f : fighters) f.draw(bg, getWidth(), getHeight());
-	}
-	@Override
-	public void paint(Graphics g){
 		g.drawImage(buffer, 0, 0, getWidth(), getHeight(), null);
 	}
+	@Override
+	public void paint(Graphics g){}
 }
