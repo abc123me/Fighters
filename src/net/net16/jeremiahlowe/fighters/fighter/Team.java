@@ -14,4 +14,13 @@ public enum Team {
 		}
 		return Color.black;
 	}
+	public Team[] getOpposing(){
+		switch(this){
+			case Red: return new Team[]{Blue, Yellow, Green};
+			case Blue: return new Team[]{Red, Yellow, Green};
+			case Yellow: return new Team[]{Blue, Red, Green};
+			case Green: return new Team[]{Blue, Yellow, Red};
+		}
+		return new Team[]{Blue, Yellow, Green, Red};
+	}
 }
