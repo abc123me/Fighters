@@ -34,4 +34,13 @@ public class GraphicsUtil {
 		g.fillOval(x, y, w, h);
 		g.setColor(orig);
 	}
+	public static void drawAngle(Graphics g, Color c, Rotation r, Vector2 origin, int len){
+		Color orig = g.getColor();
+		g.setColor(c);
+		Vector2 end = r.toDirection(len);
+		end.x += origin.x; 
+		end.y += origin.y;
+		g.drawLine(origin.getXI(), origin.getYI(), end.getXI(), end.getYI());
+		g.setColor(orig);
+	}
 }

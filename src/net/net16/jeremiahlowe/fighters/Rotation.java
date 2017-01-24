@@ -28,12 +28,12 @@ public class Rotation {
 	//Directions
 	public Vector2 toDirection(float length){
 		float x = (float) (length * Math.cos(getAngleRadians()));
-		float y = (float) (length * Math.sin(getAngleRadians()) * -1);
+		float y = (float) (length * -Math.sin(getAngleRadians()));
 		return new Vector2(x, y);
 	}
 	public static Vector2 toDirection(Rotation r, float length){
 		float x = (float) (length * Math.cos(r.getAngleRadians()));
-		float y = (float) (length * Math.sin(r.getAngleRadians()) * -1);
+		float y = (float) (length * -Math.sin(r.getAngleRadians()));
 		return new Vector2(x, y);
 	}
 	public static Vector2 toDirection(Rotation r){
@@ -42,23 +42,18 @@ public class Rotation {
 	public Vector2 toDirection(){
 		return toDirection(1);
 	}
-	//TODO: Rays
-	/**
-	public Vector2 toRay(float length){
-		float x = (float) (length * Math.cos(getAngleRadians()));
-		float y = (float) (length * Math.sin(getAngleRadians()) * -1);
-		return new Vector2(x, y);
+	public static Rotation pointTo(Vector2 origin, Vector2 target){
+		Vector2 atan2Pos = new Vector2(target.x - origin.x, target.y - origin.y);
+		double radAtan2 = Math.atan2(atan2Pos.x, atan2Pos.y);
+		Rotation out = new Rotation((float) Math.toDegrees(radAtan2));
+		out.rotateBy(-90);
+		return out;
 	}
-	public static Vector2 toRay(Rotation r, float length){
-		float x = (float) (length * Math.cos(r.getAngleRadians()));
-		float y = (float) (length * Math.sin(r.getAngleRadians()) * -1);
-		return new Vector2(x, y);
+	@Override
+	public String toString(){
+		return (getAngleDegrees() + "°");
 	}
-	public static Vector2 toRay(Rotation r){
-		return toRay(r, 1);
+	public void rotateBy(float angle){
+		rotation = correctRotation(rotation + angle);
 	}
-	public Vector2 toRay(){
-		return toRay(1);
-	}
-	**/
 }
