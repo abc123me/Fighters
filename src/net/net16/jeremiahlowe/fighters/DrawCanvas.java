@@ -5,12 +5,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
-import java.util.ArrayList;
-import java.util.List;
 
 import net.net16.jeremiahlowe.fighters.bullet.Bullet;
 import net.net16.jeremiahlowe.fighters.bullet.BulletController;
-import net.net16.jeremiahlowe.fighters.fighter.Fighter;
 import net.net16.jeremiahlowe.fighters.fighter.FighterController;
 
 public class DrawCanvas extends Canvas {
@@ -22,12 +19,14 @@ public class DrawCanvas extends Canvas {
 		Graphics bg = buffer.getGraphics();
 		bg.setColor(Color.white);
 		bg.fillRect(0, 0, getWidth(), getHeight());
-		for(Fighter f : FighterController.getFighters()) f.draw(bg, getWidth(), getHeight());
+		for(FighterController f : FighterController.getFighterControllers()) 
+			f.fighter.draw(bg, getWidth(), getHeight());
 		bg.setColor(Color.black);
 		if(Fighters.g_fps != null) bg.drawString("FPS: " + Fighters.g_fps.getActualFramerate(), 3, bg.getFontMetrics().getHeight());
 		BulletController.drawBullets(bg, getWidth(), getHeight());
 		if(Fighters.DEBUG_MODE){
-			for(Fighter f : FighterController.getFighters()) f.drawHitbox(bg);
+			for(FighterController f : FighterController.getFighterControllers()) 
+				f.fighter.drawHitbox(bg);
 			for(Bullet b : BulletController.getBullets()) b.drawHitbox(bg);
 		}
 		g.drawImage(buffer, 0, 0, getWidth(), getHeight(), null);

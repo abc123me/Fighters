@@ -3,19 +3,43 @@ package net.net16.jeremiahlowe.fighters.fighter;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.net16.jeremiahlowe.fighters.Fighters;
+import net.net16.jeremiahlowe.fighters.ai.Gene;
+
 public class FighterController {
-	protected static List<Fighter> fighters = new ArrayList<Fighter>();
+	protected static List<FighterController> fighters = new ArrayList<FighterController>();
 	public Fighter fighter;
+	public int actionIterator = 0;
+	public Gene gene;
+	
 	public FighterController(Fighter fighter){
+		gene = new Gene(Fighters.rng);
 		this.fighter = fighter;
 	}
-	public synchronized static List<Fighter> getFighters() {
+	
+	public void performAction(ActionBase a){
+		a.onPerform(this);
+	}
+	public void createGene(int length){
+		gene.create(length);
+	}
+	public synchronized void step(){
+		if(!(actionIterator < gene.actions.size())) resetActionIterator();
+		ActionBase action = gene.actions.get(actionIterator);
+		System.out.println("Performing action: " + action.name);
+		if(action != null){
+			performAction(action);
+			actionIterator++;
+		}
+	}
+	public void resetActionIterator(){
+		actionIterator = 0;
+	}
+	
+	public synchronized static List<FighterController> getFighterControllers() {
 		return fighters;
 	}
-	public static void registerFighter(Fighter f) {
+	public static void registerFighterController(FighterController f) {
 		fighters.add(f);
-	}
-	public void performAction(ActionBase a){
-		
 	}
 }

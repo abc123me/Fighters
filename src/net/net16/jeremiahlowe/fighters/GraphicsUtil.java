@@ -2,7 +2,6 @@ package net.net16.jeremiahlowe.fighters;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Polygon;
 
 import net.net16.jeremiahlowe.bettercollections.vector.Vector2;
 

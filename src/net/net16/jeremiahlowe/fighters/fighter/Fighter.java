@@ -4,8 +4,11 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import net.net16.jeremiahlowe.bettercollections.vector.Vector2;
+import net.net16.jeremiahlowe.fighters.Fighters;
 import net.net16.jeremiahlowe.fighters.GraphicsUtil;
 import net.net16.jeremiahlowe.fighters.Rotation;
+import net.net16.jeremiahlowe.fighters.bullet.Bullet;
+import net.net16.jeremiahlowe.fighters.bullet.BulletController;
 import net.net16.jeremiahlowe.fighters.physics.BaseCollider;
 
 public class Fighter extends BaseCollider{
@@ -16,7 +19,10 @@ public class Fighter extends BaseCollider{
 	public boolean visible = false;
 	public float fighterSize = 24;
 	public Fighter[] inFrontOf;
+	public Fighter target;
 	public Team[] enemyTeams;
+	public float speed = 2.5f;
+	public float turnSpeed = 3f;
 	
 	public Fighter(Vector2 position, Rotation looking, Team team, boolean visible){
 		this.position = position;
@@ -24,6 +30,9 @@ public class Fighter extends BaseCollider{
 		this.visible = visible;
 		this.team = team;
 		enemyTeams = team.getOpposing();
+	}
+	public Fighter(Vector2 position, Rotation looking, Team team){
+		this(position, looking, team, true);
 	}
 	
 	public void draw(Graphics g, int w, int h){
@@ -52,5 +61,22 @@ public class Fighter extends BaseCollider{
 	@Override
 	public Vector2 getPosition() {
 		return position;
+	}
+	public void shoot() {
+		Vector2 velocity = looking.toDirection();
+		velocity.x *= Fighters.BULLET_SPEED.x;
+		velocity.y *= Fighters.BULLET_SPEED.y;
+		Vector2 origin = new Vector2(position.x, position.y);
+		Bullet b = new Bullet(origin, velocity, team);
+		BulletController.registerBullet(b);
+	}
+	public void turnTowardsTarget(float turnSpeed) {
+		
+	}
+	public void turnAwayFromTarget(float turnSpeed) {
+		
+	}
+	public void stepTargetting(){
+		
 	}
 }
