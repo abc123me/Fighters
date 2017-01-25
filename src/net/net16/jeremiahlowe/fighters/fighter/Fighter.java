@@ -44,6 +44,7 @@ public class Fighter extends BaseCollider{
 			//Draw FOV group
 			GraphicsUtil.drawAngle(g, teamColor, fov1, position, w + h);
 			GraphicsUtil.drawAngle(g, teamColor, fov2, position, w + h);
+			if(Fighters.DEBUG_MODE) GraphicsUtil.drawAngle(g, Color.ORANGE, looking, position, w + h);
 			//Draw body
 			GraphicsUtil.fillCenteredCircle(fighterSize, position, g, teamColor);
 			GraphicsUtil.drawCenteredCircle(fighterSize, position, g, Color.black);
@@ -67,7 +68,7 @@ public class Fighter extends BaseCollider{
 		velocity.x *= Fighters.BULLET_SPEED.x;
 		velocity.y *= Fighters.BULLET_SPEED.y;
 		Vector2 origin = new Vector2(position.x, position.y);
-		Bullet b = new Bullet(origin, velocity, team);
+		Bullet b = new Bullet(origin, velocity, FighterController.findFighterController(this));
 		BulletController.registerBullet(b);
 	}
 	public void turnTowardsTarget(float turnSpeed) {

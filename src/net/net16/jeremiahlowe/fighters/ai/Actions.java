@@ -3,10 +3,14 @@ package net.net16.jeremiahlowe.fighters.ai;
 import java.util.Random;
 
 import net.net16.jeremiahlowe.bettercollections.vector.Vector2;
+import net.net16.jeremiahlowe.fighters.Fighters;
 import net.net16.jeremiahlowe.fighters.fighter.ActionBase;
+import net.net16.jeremiahlowe.fighters.fighter.Fighter;
 import net.net16.jeremiahlowe.fighters.fighter.FighterController;
 
 public interface Actions {
+	public static final float KILL_SCORE = 5;
+	public static final float MISS_SCORE = -0.3f;
 	public enum Movement{
 		Up, Down, Left, Right, UpLeft, UpRight, DownLeft, DownRight, Forward, Backward, Rightward, Leftward, Stop;
 
@@ -77,60 +81,69 @@ public interface Actions {
 			switch(movement){
 				case Forward:
 					super.reward = 0.2f;
-					f.fighter.position.y += dir.y;
+					if(ActionUtils.canMove(f.fighter, new Vector2(0, dir.y))) f.fighter.position.y += dir.y;
 					break;
 				case Backward:
 					super.reward = 0.15f;
-					f.fighter.position.y -= dir.y;
+					if(ActionUtils.canMove(f.fighter, new Vector2(0, -dir.y))) f.fighter.position.y -= dir.y;
 					break;
 				case Leftward:
 					super.reward = 0.15f;
-					f.fighter.position.x -= dir.x;
+					if(ActionUtils.canMove(f.fighter, new Vector2(-dir.x, 0))) f.fighter.position.x -= dir.x;
 					break;
 				case Rightward:
 					super.reward = 0.15f;
-					f.fighter.position.x += dir.x;
+					if(ActionUtils.canMove(f.fighter, new Vector2(dir.x, 0))) f.fighter.position.x += dir.x;
 					break;
 				case Down:
 					super.reward = 0.1f;
-					f.fighter.position.y -= speed;
+					if(ActionUtils.canMove(f.fighter, new Vector2(0, -speed))) f.fighter.position.y -= speed;
 					break;
 				case DownLeft:
 					super.reward = 0.15f;
-					f.fighter.position.x -= speed;
-					f.fighter.position.y -= speed;
+					if(ActionUtils.canMove(f.fighter, new Vector2(-speed, 0))) f.fighter.position.x -= speed;
+					if(ActionUtils.canMove(f.fighter, new Vector2(0, -speed))) f.fighter.position.y -= speed;
 					break;
 				case DownRight:
 					super.reward = 0.15f;
-					f.fighter.position.y -= speed;
-					f.fighter.position.x += speed;
+					if(ActionUtils.canMove(f.fighter, new Vector2(0, -speed))) f.fighter.position.y -= speed;
+					if(ActionUtils.canMove(f.fighter, new Vector2(speed, 0))) f.fighter.position.x += speed;
 					break;
 				case Left:
 					super.reward = 0.1f;
-					f.fighter.position.x -= speed;
+					if(ActionUtils.canMove(f.fighter, new Vector2(-speed, 0))) f.fighter.position.x -= speed;
 					break;
 				case Right:
 					super.reward = 0.1f;
-					f.fighter.position.x += speed;
+					if(ActionUtils.canMove(f.fighter, new Vector2(speed, 0)))f.fighter.position.x += speed;
 					break;
 				case Up:
 					super.reward = 0.1f;
-					f.fighter.position.y += speed;
+					if(ActionUtils.canMove(f.fighter, new Vector2(0, speed))) f.fighter.position.y += speed;
 					break;
 				case UpLeft:
 					super.reward = 0.15f;
 					f.fighter.position.x -= speed;
-					f.fighter.position.y += speed;
+					if(ActionUtils.canMove(f.fighter, new Vector2(0, speed))) f.fighter.position.y += speed;
 					break;
 				case UpRight:
 					super.reward = 0.15f;
-					f.fighter.position.y += speed;
-					f.fighter.position.x += speed;
+					if(ActionUtils.canMove(f.fighter, new Vector2(speed, speed))) f.fighter.position.y += speed;
+					if(ActionUtils.canMove(f.fighter, new Vector2(0, speed))) f.fighter.position.x += speed;
 					break;
 				default: 
 					super.reward = 0.02f;
 					break;
 			}
+		}
+	}
+	class ActionUtils{
+		public static boolean canMove(Fighter f, Vector2 velo){
+			if(f.position.x + velo.x >= Fighters.gui.drawCanvas.getWidth() - f.getSize().x) return false;
+			if(f.position.x + velo.x <= f.getSize().x) return false;
+			if(f.position.y + velo.y >= Fighters.gui.drawCanvas.getHeight() - f.getSize().y) return false;
+			if(f.position.y + velo.y <= f.getSize().y) return false;
+			return true;
 		}
 	}
 }

@@ -11,8 +11,8 @@ public class Fighters {
 	public static final boolean DEBUG_MODE = true;
 	public static Framerate g_fps; //For graphics ONLY (Unlimited)
 	public static Framerate t_fps; //For physics and stuff (Limited to 120 fps)
-	public static final int PHYSICS_FRAMERATE_MAX = 10;
-	public static final int GENE_LENGTH = 250;
+	public static final int PHYSICS_FRAMERATE_MAX = 120;
+	public static final int GENE_LENGTH = 2500;
 	public static final Vector2 BULLET_SPEED = new Vector2(5, 5);
 	public static GUI gui;
 	public static Random rng;

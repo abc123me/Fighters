@@ -21,7 +21,7 @@ public class BulletController {
 		for(Bullet b : toRemove) bullets.remove(b);
 		toRemove.clear();
 	}
-	public static void drawBullets(Graphics g, int width, int height) {
+	public static synchronized void drawBullets(Graphics g, int width, int height) {
 		BulletController.width = width;
 		BulletController.height = height;
 		for(Bullet b : bullets) b.draw(g);
