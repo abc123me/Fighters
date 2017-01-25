@@ -3,6 +3,7 @@ package net.net16.jeremiahlowe.fighters.fighter;
 import net.net16.jeremiahlowe.bettercollections.vector.Vector2;
 import net.net16.jeremiahlowe.fighters.Fighters;
 import net.net16.jeremiahlowe.fighters.Rotation;
+import net.net16.jeremiahlowe.fighters.ai.Gene;
 
 public class Spawner {
 	public static Team[] availableTeams = Team.values();
@@ -19,5 +20,17 @@ public class Spawner {
 		Team team = availableTeams[Fighters.rng.nextInt(3)];
 		Fighter out = new Fighter(pos, rot, team);
 		return out;
+	}
+	public static FighterController spawnFighterWithController(int geneLength){
+		FighterController a = Spawner.createFighterWithController();
+		a.createGene(geneLength);
+		FighterController.registerFighterController(a);
+		return a;
+	}
+	public static FighterController spawnFighterFromGene(Gene gene){
+		FighterController a = Spawner.createFighterWithController();
+		a.gene = gene;
+		FighterController.registerFighterController(a);
+		return a;
 	}
 }

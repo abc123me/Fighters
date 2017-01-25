@@ -81,58 +81,64 @@ public interface Actions {
 			switch(movement){
 				case Forward:
 					super.reward = 0.2f;
-					if(ActionUtils.canMove(f.fighter, new Vector2(0, dir.y))) f.fighter.position.y += dir.y;
+					f.fighter.velocity.y = dir.y;
 					break;
 				case Backward:
 					super.reward = 0.15f;
-					if(ActionUtils.canMove(f.fighter, new Vector2(0, -dir.y))) f.fighter.position.y -= dir.y;
+					f.fighter.velocity.y = -dir.y;
 					break;
 				case Leftward:
 					super.reward = 0.15f;
-					if(ActionUtils.canMove(f.fighter, new Vector2(-dir.x, 0))) f.fighter.position.x -= dir.x;
+					f.fighter.velocity.x = -dir.x;
 					break;
 				case Rightward:
 					super.reward = 0.15f;
-					if(ActionUtils.canMove(f.fighter, new Vector2(dir.x, 0))) f.fighter.position.x += dir.x;
+					f.fighter.velocity.x = dir.x;
 					break;
 				case Down:
 					super.reward = 0.1f;
-					if(ActionUtils.canMove(f.fighter, new Vector2(0, -speed))) f.fighter.position.y -= speed;
+					f.fighter.velocity.y = -speed;
 					break;
 				case DownLeft:
 					super.reward = 0.15f;
-					if(ActionUtils.canMove(f.fighter, new Vector2(-speed, 0))) f.fighter.position.x -= speed;
-					if(ActionUtils.canMove(f.fighter, new Vector2(0, -speed))) f.fighter.position.y -= speed;
+					f.fighter.velocity.x = -speed;
+					f.fighter.velocity.y = -speed;
 					break;
 				case DownRight:
 					super.reward = 0.15f;
-					if(ActionUtils.canMove(f.fighter, new Vector2(0, -speed))) f.fighter.position.y -= speed;
-					if(ActionUtils.canMove(f.fighter, new Vector2(speed, 0))) f.fighter.position.x += speed;
+					f.fighter.velocity.y = -speed;
+					f.fighter.velocity.x = speed;
 					break;
 				case Left:
 					super.reward = 0.1f;
-					if(ActionUtils.canMove(f.fighter, new Vector2(-speed, 0))) f.fighter.position.x -= speed;
+					f.fighter.velocity.x = -speed;
 					break;
 				case Right:
 					super.reward = 0.1f;
-					if(ActionUtils.canMove(f.fighter, new Vector2(speed, 0)))f.fighter.position.x += speed;
+					f.fighter.velocity.x = speed;
 					break;
 				case Up:
 					super.reward = 0.1f;
-					if(ActionUtils.canMove(f.fighter, new Vector2(0, speed))) f.fighter.position.y += speed;
+					f.fighter.velocity.y = speed;
 					break;
 				case UpLeft:
 					super.reward = 0.15f;
-					f.fighter.position.x -= speed;
-					if(ActionUtils.canMove(f.fighter, new Vector2(0, speed))) f.fighter.position.y += speed;
+					f.fighter.velocity.x = -speed;
+					f.fighter.velocity.y = speed;
 					break;
 				case UpRight:
 					super.reward = 0.15f;
-					if(ActionUtils.canMove(f.fighter, new Vector2(speed, speed))) f.fighter.position.y += speed;
-					if(ActionUtils.canMove(f.fighter, new Vector2(0, speed))) f.fighter.position.x += speed;
+					f.fighter.velocity.y = speed;
+					f.fighter.velocity.x = speed;
+					break;
+				case Stop:
+					if(f.fighter.velocity.x == 0 && f.fighter.velocity.y == 0) super.reward = 0.15f;
+					else super.reward = -1;
+					f.fighter.velocity.y = 0;
+					f.fighter.velocity.x = 0;
 					break;
 				default: 
-					super.reward = 0.02f;
+					super.reward = -0.05f;
 					break;
 			}
 		}

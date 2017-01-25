@@ -1,6 +1,7 @@
 package net.net16.jeremiahlowe.fighters.bullet;
 
 import java.awt.Graphics;
+import java.util.ConcurrentModificationException;
 
 import net.net16.jeremiahlowe.bettercollections.vector.Vector2;
 import net.net16.jeremiahlowe.fighters.GraphicsUtil;
@@ -31,13 +32,16 @@ public class Bullet extends BaseCollider{
 	protected synchronized void step() {
 		position.x += velocity.x;
 		position.y += velocity.y;
-		for(FighterController f : FighterController.getFighterControllers())
-			if(this.checkCollidingWith(f.fighter))
-				if(from.fighter.team != f.fighter.team) {
-					from.addPoints(Actions.KILL_SCORE);
-					f.addPoints(-Actions.KILL_SCORE);
-					FighterController.unregisterFighter(f, true);
-				}				
+		try{
+			for(FighterController f : FighterController.getFighterControllers())
+				if(this.checkCollidingWith(f.fighter))
+					if(from.fighter.team != f.fighter.team) {
+						from.addPoints(Actions.KILL_SCORE);
+						f.addPoints(-Actions.KILL_SCORE);
+						FighterController.unregisterFighter(f, true);
+					}				
+		}
+		catch(ConcurrentModificationException cme){}
 	}
 	
 	public void onHitWalls(){

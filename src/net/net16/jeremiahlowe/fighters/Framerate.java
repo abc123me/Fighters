@@ -5,6 +5,7 @@ public class Framerate {
 	private Runnable run;
 	private Thread runThread;
 	private int avgtime = 0;
+	
 	public Framerate(float fps, Runnable run){
 		if(fps <= 0) throw new RuntimeException("FPS can't be under or equal to zero idiot");
 		else if(fps == Float.POSITIVE_INFINITY) milliseconds = 0;

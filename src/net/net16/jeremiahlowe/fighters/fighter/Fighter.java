@@ -13,6 +13,7 @@ import net.net16.jeremiahlowe.fighters.physics.BaseCollider;
 
 public class Fighter extends BaseCollider{
 	public Vector2 position = new Vector2(0, 0);
+	public Vector2 velocity = new Vector2(0, 0);
 	public Rotation fov = new Rotation(30);
 	public Rotation looking = new Rotation(0);
 	public Team team = Team.Red;
@@ -79,5 +80,9 @@ public class Fighter extends BaseCollider{
 	}
 	public void stepTargetting(){
 		
+	}
+	public void stepVelocity(){
+		position.x += velocity.x;
+		position.y += velocity.y;
 	}
 }
