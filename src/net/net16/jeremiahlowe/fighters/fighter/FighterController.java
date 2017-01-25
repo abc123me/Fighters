@@ -14,7 +14,7 @@ public class FighterController {
 	public Gene gene;
 	
 	public FighterController(Fighter fighter){
-		gene = new Gene(Fighters.rng);
+		gene = new Gene(Fighters.rng, fighter.team);
 		this.fighter = fighter;
 	}
 	

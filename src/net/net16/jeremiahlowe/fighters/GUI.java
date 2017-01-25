@@ -16,6 +16,8 @@ import java.awt.FlowLayout;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.JSpinner;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class GUI extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -45,12 +47,27 @@ public class GUI extends JFrame {
 		panel_1.add(horizontalBox, BorderLayout.SOUTH);
 		
 		JButton btnNextGeneration = new JButton("Next generation");
+		btnNextGeneration.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Fighters.onNewGeneration();
+			}
+		});
 		horizontalBox.add(btnNextGeneration);
 		
 		JButton btnPause = new JButton("Pause");
+		btnPause.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Fighters.onPause();
+			}
+		});
 		horizontalBox.add(btnPause);
 		
 		JButton btnNewButton = new JButton("Reset");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Fighters.onReset();
+			}
+		});
 		horizontalBox.add(btnNewButton);
 	}
 }

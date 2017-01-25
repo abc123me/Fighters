@@ -7,14 +7,18 @@ import java.util.Random;
 import net.net16.jeremiahlowe.fighters.ai.Actions.Fighting;
 import net.net16.jeremiahlowe.fighters.ai.Actions.Movement;
 import net.net16.jeremiahlowe.fighters.fighter.ActionBase;
+import net.net16.jeremiahlowe.fighters.fighter.Team;
 
 public class Gene {
 	public List<ActionBase> actions;
 	public float score = 0;
 	private Random rng;
 	private static float movementChance = 0.85f;
-	public Gene(Random rng){
+	public final Team parentTeam;
+	
+	public Gene(Random rng, Team parentTeam){
 		this.rng = rng;
+		this.parentTeam = parentTeam;
 		actions = new ArrayList<ActionBase>();
 	}
 	public void mutate(float errorChance){

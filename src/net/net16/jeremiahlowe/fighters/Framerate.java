@@ -1,6 +1,7 @@
 package net.net16.jeremiahlowe.fighters;
 
 public class Framerate {
+	private volatile boolean running = false;
 	private int milliseconds = 0;
 	private Runnable run;
 	private Thread runThread;
@@ -14,9 +15,10 @@ public class Framerate {
 		this.run = run;
 	}
 	public void start(){
-		if(runThread == null) runThread = new Thread(new Runnable(){
+		runThread = new Thread(new Runnable(){
 			@Override
 			public void run(){
+				running = true;
 				try{
 					while(!Thread.interrupted()){
 						long lastTime = System.currentTimeMillis();
@@ -31,6 +33,7 @@ public class Framerate {
 					e.printStackTrace();
 					System.exit(-1);
 				}
+				running = false;
 			}
 		});
 		runThread.start();
@@ -40,5 +43,8 @@ public class Framerate {
 	}
 	public synchronized float getActualFramerate(){
 		return (1f / avgtime) * 1000f;
+	}
+	public boolean isRunning(){
+		return running;
 	}
 }

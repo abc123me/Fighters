@@ -16,6 +16,7 @@ public class GenePool {
 		genes.clear();
 	}
 	public static void mutateGenePool(float errorChance){
-		for(Gene g : genes) g.mutate(errorChance);
+		for(Gene g : genes) 
+			g.mutate(errorChance);
 	}
 }

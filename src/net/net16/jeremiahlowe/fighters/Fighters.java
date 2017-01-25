@@ -3,16 +3,18 @@ package net.net16.jeremiahlowe.fighters;
 import java.util.Random;
 
 import net.net16.jeremiahlowe.bettercollections.vector.Vector2;
+import net.net16.jeremiahlowe.fighters.ai.GenerationController;
 import net.net16.jeremiahlowe.fighters.bullet.BulletController;
 import net.net16.jeremiahlowe.fighters.fighter.FighterController;
-import net.net16.jeremiahlowe.fighters.fighter.Spawner;
 
 public class Fighters {
 	public static final boolean DEBUG_MODE = false;
-	public static Framerate g_fps; 
 	public static final int MAX_FRAMERATE = 120;
 	public static final int GENE_LENGTH = 2500;
+	public static final float ERROR_CHANCE = 0.10f;
 	public static final Vector2 BULLET_SPEED = new Vector2(5, 5);
+	public static Framerate g_fps; 
+	public static boolean paused = false;
 	public static GUI gui;
 	public static Random rng;
 	public static void main(String[] args) {
@@ -22,11 +24,7 @@ public class Fighters {
 		gui = new GUI();
 		gui.setVisible(true);
 		addFPSsystem();
-		Spawner.spawnFighterWithController(GENE_LENGTH);
-		Spawner.spawnFighterWithController(GENE_LENGTH);
-		Spawner.spawnFighterWithController(GENE_LENGTH);
-		Spawner.spawnFighterWithController(GENE_LENGTH);
-		Spawner.spawnFighterWithController(GENE_LENGTH);
+		GenerationController.spawnNewGenerationFromScratch(GENE_LENGTH);
 	}
 	private static int stepIterator = 0;
 	public static void stepGlobal(){
@@ -48,6 +46,28 @@ public class Fighters {
 				gui.drawCanvas.repaint();
 				stepGlobal();
 			}
-		}); g_fps.start();
+		}); 
+		g_fps.start();
+	}
+	public static void onNewGeneration(){
+		g_fps.stop();
+		while(g_fps.isRunning()){}
+		GenerationController.killCurrentGeneration();
+		GenerationController.spawnNewGenerationFromGenePool(ERROR_CHANCE);
+		g_fps.start();
+	}
+	public static void onReset() {
+		GenerationController.killCurrentGeneration();
+		GenerationController.spawnNewGenerationFromScratch(GENE_LENGTH);
+	}
+	public static void onPause() {
+		if(!paused){
+			g_fps.stop();
+			paused = true;
+		}
+		else{
+			g_fps.start();
+			paused = false;
+		}
 	}
 }
