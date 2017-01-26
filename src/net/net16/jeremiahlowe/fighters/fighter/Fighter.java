@@ -2,7 +2,10 @@ package net.net16.jeremiahlowe.fighters.fighter;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.List;
 
+import net.net16.jeremiahlowe.bettercollections.Line;
 import net.net16.jeremiahlowe.bettercollections.vector.Vector2;
 import net.net16.jeremiahlowe.fighters.Fighters;
 import net.net16.jeremiahlowe.fighters.GraphicsUtil;
@@ -19,8 +22,8 @@ public class Fighter extends BaseCollider{
 	public Team team = Team.Red;
 	public boolean visible = false;
 	public float fighterSize = 24;
-	public Fighter[] inFrontOf;
-	public Fighter target;
+	public List<FighterController> inFrontOf;
+	public FighterController target;
 	public Team[] enemyTeams;
 	public float speed = 2.5f;
 	public float turnSpeed = 3f;
@@ -30,6 +33,7 @@ public class Fighter extends BaseCollider{
 		this.looking = looking;
 		this.visible = visible;
 		this.team = team;
+		inFrontOf = new ArrayList<FighterController>();
 		enemyTeams = team.getOpposing();
 	}
 	public Fighter(Vector2 position, Rotation looking, Team team){
@@ -73,15 +77,34 @@ public class Fighter extends BaseCollider{
 		BulletController.registerBullet(b);
 	}
 	public void turnTowardsTarget(float turnSpeed) {
-		
+		if(target != null) looking = Rotation.pointTo(position, target.fighter.position);
 	}
 	public void turnAwayFromTarget(float turnSpeed) {
 		
 	}
 	public void stepTargetting(){
-		
-		
-		
+		Rotation fov1 = null, fov2 = null;
+		fov1 = new Rotation(fov.getAngleDegrees() / 2 + looking.getAngleDegrees());
+		fov2 = new Rotation(looking.getAngleDegrees() - fov.getAngleDegrees() / 2);
+		Line top = new Line(position, fov1.toDirection().add(position));
+		Line btm = new Line(position, fov2.toDirection().add(position));
+		inFrontOf.clear();
+		for(FighterController f : FighterController.getFighterControllers()){
+			Vector2 pos = f.fighter.position.clone();
+			if(pos.y > btm.getY(pos.x) && pos.y < top.getY(pos.x)){
+				inFrontOf.add(f);
+			}
+		}
+		target = null;
+		float closest = Float.MIN_VALUE;
+		for(FighterController f : inFrontOf){
+			float dist = (float) Vector2.distance2(position, f.fighter.position);
+			if(dist > closest){
+				target = f;
+				closest = dist;
+				System.out.println("Target acquired");
+			}
+		}
 	}
 	public void stepVelocity(){
 		position.x += velocity.x;
