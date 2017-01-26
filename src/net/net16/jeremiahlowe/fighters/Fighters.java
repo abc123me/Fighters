@@ -8,7 +8,7 @@ import net.net16.jeremiahlowe.fighters.bullet.BulletController;
 import net.net16.jeremiahlowe.fighters.fighter.FighterController;
 
 public class Fighters {
-	public static final boolean DEBUG_MODE = false;
+	public static final boolean DEBUG_MODE = true;
 	public static final int MAX_FRAMERATE = 120;
 	public static final int GENE_LENGTH = 2500;
 	public static final float ERROR_CHANCE = 0.10f;
@@ -24,7 +24,7 @@ public class Fighters {
 		gui = new GUI();
 		gui.setVisible(true);
 		addFPSsystem();
-		GenerationController.spawnNewGenerationFromScratch(GENE_LENGTH);
+		GenerationController.spawnNewGenerationFromScratch(GENE_LENGTH, true, 0);
 	}
 	private static int stepIterator = 0;
 	public static void stepGlobal(){
@@ -53,12 +53,12 @@ public class Fighters {
 		g_fps.stop();
 		while(g_fps.isRunning()){}
 		GenerationController.killCurrentGeneration();
-		GenerationController.spawnNewGenerationFromGenePool(ERROR_CHANCE);
+		GenerationController.spawnNewGenerationFromGenePool(ERROR_CHANCE, true, 0);
 		g_fps.start();
 	}
 	public static void onReset() {
 		GenerationController.killCurrentGeneration();
-		GenerationController.spawnNewGenerationFromScratch(GENE_LENGTH);
+		GenerationController.spawnNewGenerationFromScratch(GENE_LENGTH, true, 0);
 	}
 	public static void onPause() {
 		if(!paused){

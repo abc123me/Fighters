@@ -23,6 +23,7 @@ public class FighterController {
 	
 	public void performAction(ActionBase a){
 		a.onPerform(this);
+		gene.score += a.reward;
 	}
 	public void createGene(int length){
 		gene.create(length);
@@ -30,7 +31,6 @@ public class FighterController {
 	public void step(){
 		if(!(actionIterator < gene.actions.size())) resetActionIterator();
 		ActionBase action = gene.actions.get(actionIterator);
-		System.out.println("Performing action: " + action.name);
 		if(action != null){
 			performAction(action);
 			actionIterator++;

@@ -8,9 +8,12 @@ public class GenePool {
 	public static void registerGene(Gene g){
 		genes.add(g);
 	}
-	public static Gene[] getSortedGenes(boolean leastToGreatest){
-		Gene[] out = new Gene[genes.size()];
-		return out;
+	public static Gene getBestGene(){
+		float highestScore = Float.MIN_VALUE;
+		for(Gene g : genes) highestScore = g.score > highestScore ? g.score : highestScore;
+		System.out.println("Highest score: " + highestScore);
+		for(Gene g : genes) if(g.score == highestScore) return g;
+		return null;
 	}
 	public static void clear(){
 		genes.clear();

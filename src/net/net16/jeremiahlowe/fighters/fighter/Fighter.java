@@ -80,6 +80,8 @@ public class Fighter extends BaseCollider{
 	}
 	public void stepTargetting(){
 		
+		
+		
 	}
 	public void stepVelocity(){
 		position.x += velocity.x;
