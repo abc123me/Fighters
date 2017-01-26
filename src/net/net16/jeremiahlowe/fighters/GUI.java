@@ -8,14 +8,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTabbedPane;
 import javax.swing.Box;
 import javax.swing.JButton;
-import javax.swing.JLabel;
-import java.awt.ScrollPane;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import java.awt.FlowLayout;
-import javax.swing.SpringLayout;
-import javax.swing.SwingConstants;
-import javax.swing.JSpinner;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 

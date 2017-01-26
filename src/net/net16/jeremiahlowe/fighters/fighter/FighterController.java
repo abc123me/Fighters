@@ -1,14 +1,17 @@
 package net.net16.jeremiahlowe.fighters.fighter;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import net.net16.jeremiahlowe.fighters.Fighters;
 import net.net16.jeremiahlowe.fighters.ai.Gene;
 import net.net16.jeremiahlowe.fighters.ai.GenePool;
 
 public class FighterController {
-	protected static List<FighterController> fighters = new ArrayList<FighterController>();
+	//Thanks to Robert + Patricia Liguori for writing the Java Pocket Guide for whenever
+	// you need to get quick Java reference when internet is down
+	protected static List<FighterController> fighters = new CopyOnWriteArrayList<FighterController>();
+	
 	public Fighter fighter;
 	public int actionIterator = 0;
 	public Gene gene;
@@ -24,7 +27,7 @@ public class FighterController {
 	public void createGene(int length){
 		gene.create(length);
 	}
-	public synchronized void step(){
+	public void step(){
 		if(!(actionIterator < gene.actions.size())) resetActionIterator();
 		ActionBase action = gene.actions.get(actionIterator);
 		System.out.println("Performing action: " + action.name);
@@ -37,7 +40,7 @@ public class FighterController {
 		actionIterator = 0;
 	}
 	
-	public synchronized static List<FighterController> getFighterControllers() {
+	public static List<FighterController> getFighterControllers() {
 		return fighters;
 	}
 	public static void registerFighterController(FighterController f) {
