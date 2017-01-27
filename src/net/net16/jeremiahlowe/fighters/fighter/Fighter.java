@@ -93,7 +93,7 @@ public class Fighter extends BaseCollider{
 		fov2 = new Rotation(looking.getAngleDegrees() - fov.getAngleDegrees() / 2);
 		Line top = new Line(position, fov1.toDirection().add(position));
 		Line btm = new Line(position, fov2.toDirection().add(position));
-		List<FighterController> oldInFrontOf = inFrontOf;
+		//List<FighterController> oldInFrontOf = inFrontOf;
 		inFrontOf.clear();
 		for(FighterController f : FighterController.getFighterControllers()){
 			Vector2 pos = f.fighter.position.clone();
