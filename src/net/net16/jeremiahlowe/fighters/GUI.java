@@ -8,8 +8,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTabbedPane;
 import javax.swing.Box;
 import javax.swing.JButton;
+<<<<<<< HEAD
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+=======
+>>>>>>> refs/heads/master
 
 public class GUI extends JFrame {
 	private static final long serialVersionUID = 1L;
