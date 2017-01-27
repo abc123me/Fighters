@@ -77,7 +77,12 @@ public class Fighter extends BaseCollider{
 		BulletController.registerBullet(b);
 	}
 	public void turnTowardsTarget(float turnSpeed) {
-		if(target != null) looking = Rotation.pointTo(position, target.fighter.position);
+		if(target != null){
+			Rotation correctRot = Rotation.pointTo(position, target.fighter.position);
+			//float lr = looking.getAngleDegrees();
+			//float cr = correctRot.getAngleDegrees();
+			looking.setAngleDegrees(correctRot.getAngleDegrees());
+		}
 	}
 	public void turnAwayFromTarget(float turnSpeed) {
 		
@@ -88,6 +93,7 @@ public class Fighter extends BaseCollider{
 		fov2 = new Rotation(looking.getAngleDegrees() - fov.getAngleDegrees() / 2);
 		Line top = new Line(position, fov1.toDirection().add(position));
 		Line btm = new Line(position, fov2.toDirection().add(position));
+		List<FighterController> oldInFrontOf = inFrontOf;
 		inFrontOf.clear();
 		for(FighterController f : FighterController.getFighterControllers()){
 			Vector2 pos = f.fighter.position.clone();
@@ -95,6 +101,14 @@ public class Fighter extends BaseCollider{
 				inFrontOf.add(f);
 			}
 		}
+		if(inFrontOf.size() >= 1){
+			FighterController f = FighterController.findFighterController(this);
+			if(f != null){
+				f.gene.score += 0.1f;
+				System.out.println("Found a target, Adding score");
+			}
+		}
+		FighterController oldTarget = target;
 		target = null;
 		float closest = Float.MIN_VALUE;
 		for(FighterController f : inFrontOf){
@@ -102,12 +116,26 @@ public class Fighter extends BaseCollider{
 			if(dist > closest){
 				target = f;
 				closest = dist;
-				System.out.println("Target acquired");
+			}
+		}
+		if(target != null && target != oldTarget){
+			FighterController f = FighterController.findFighterController(this);
+			if(f != null){
+				f.gene.score += 0.1f;
+				System.out.println("New target acquired, Adding score");
 			}
 		}
 	}
 	public void stepVelocity(){
 		position.x += velocity.x;
 		position.y += velocity.y;
+	}
+	public boolean isOnSides(){
+		if(position.x < fighterSize / 2) return true;
+		if(position.y < fighterSize / 2) return true;
+		int w = Fighters.gui.drawCanvas.getWidth(), h = Fighters.gui.drawCanvas.getHeight();
+		if(position.x > w - fighterSize / 2) return true;
+		if(position.y > h - fighterSize / 2) return true;
+		return false;
 	}
 }

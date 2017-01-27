@@ -49,6 +49,7 @@ public class FighterController {
 
 	public static void unregisterFighter(FighterController toRemove, boolean keepGene) {
 		fighters.remove(toRemove);
+		System.out.println("Removed fighter");
 		if(keepGene) GenePool.registerGene(toRemove.gene);
 	}
 	

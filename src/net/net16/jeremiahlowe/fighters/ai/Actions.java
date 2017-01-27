@@ -50,15 +50,15 @@ public interface Actions {
 					break;
 				case Shoot:
 					f.fighter.shoot();
-					super.reward = 0.5f;
+					super.reward = 1f;
 					break;
 				case Turn_away_from_target:
 					f.fighter.turnAwayFromTarget(f.fighter.turnSpeed);
-					super.reward = -0.3f;
+					super.reward = -1f;
 					break;
 				case Turn_towards_target:
 					f.fighter.turnTowardsTarget(f.fighter.turnSpeed);
-					super.reward = 0.3f;
+					super.reward = 1.5f;
 					break;
 				default:
 					super.reward = -0.1f;
@@ -140,6 +140,9 @@ public interface Actions {
 				default: 
 					super.reward = -0.05f;
 					break;
+			}
+			if(f.fighter.isOnSides()){
+				super.reward = -1;
 			}
 		}
 	}

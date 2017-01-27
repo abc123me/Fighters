@@ -57,6 +57,8 @@ public class Fighters {
 		g_fps.start();
 	}
 	public static void onReset() {
+		if(DEBUG_MODE) rng.setSeed(0);
+		else rng.setSeed(System.currentTimeMillis() * System.nanoTime());
 		GenerationController.killCurrentGeneration();
 		GenerationController.spawnNewGenerationFromScratch(GENE_LENGTH, true, 0);
 	}
