@@ -3,6 +3,7 @@ package net.net16.jeremiahlowe.fighters;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import net.net16.jeremiahlowe.bettercollections.Rotation;
 import net.net16.jeremiahlowe.bettercollections.vector.Vector2;
 
 public class GraphicsUtil {

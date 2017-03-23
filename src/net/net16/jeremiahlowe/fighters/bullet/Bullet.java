@@ -3,9 +3,9 @@ package net.net16.jeremiahlowe.fighters.bullet;
 import java.awt.Graphics;
 import java.util.ConcurrentModificationException;
 
+import net.net16.jeremiahlowe.bettercollections.Rotation;
 import net.net16.jeremiahlowe.bettercollections.vector.Vector2;
 import net.net16.jeremiahlowe.fighters.GraphicsUtil;
-import net.net16.jeremiahlowe.fighters.Rotation;
 import net.net16.jeremiahlowe.fighters.ai.Actions;
 import net.net16.jeremiahlowe.fighters.fighter.FighterController;
 import net.net16.jeremiahlowe.fighters.physics.BaseCollider;

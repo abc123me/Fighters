@@ -13,7 +13,7 @@ public class BulletController {
 		bullet.onRegister();
 		bullets.add(bullet);
 	}
-	public static void stepBullets(){
+	public static synchronized void stepBullets(){
 		for(Bullet b : bullets){
 			if(b.getPosition().x == 0 || b.getPosition().y == 0 || b.getPosition().x == width || b.getPosition().y == height) toRemove.add(b);
 			else b.step();

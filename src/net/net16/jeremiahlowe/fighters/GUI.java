@@ -10,11 +10,13 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JCheckBox;
 
 public class GUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 	public DrawCanvas drawCanvas;
 	private JPanel contentPane;
+	public ScrollingGraph statusGraph;
 	
 	public GUI() {
 		setAlwaysOnTop(true);
@@ -61,5 +63,20 @@ public class GUI extends JFrame {
 			}
 		});
 		horizontalBox.add(btnNewButton);
+		
+		JCheckBox chckbxAutopilot = new JCheckBox("Autopilot");
+		chckbxAutopilot.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Fighters.autoPilot = chckbxAutopilot.isSelected();
+			}
+		});
+		horizontalBox.add(chckbxAutopilot);
+		
+		JPanel panel = new JPanel();
+		tabbedPane.addTab("Progress", null, panel, null);
+		panel.setLayout(new BorderLayout(0, 0));
+		
+		statusGraph = new ScrollingGraph();
+		panel.add(statusGraph);
 	}
 }

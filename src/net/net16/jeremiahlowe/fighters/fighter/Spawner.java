@@ -1,8 +1,8 @@
 package net.net16.jeremiahlowe.fighters.fighter;
 
+import net.net16.jeremiahlowe.bettercollections.Rotation;
 import net.net16.jeremiahlowe.bettercollections.vector.Vector2;
 import net.net16.jeremiahlowe.fighters.Fighters;
-import net.net16.jeremiahlowe.fighters.Rotation;
 import net.net16.jeremiahlowe.fighters.ai.Gene;
 
 public class Spawner {

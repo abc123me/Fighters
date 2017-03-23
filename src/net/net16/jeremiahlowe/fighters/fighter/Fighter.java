@@ -6,15 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.net16.jeremiahlowe.bettercollections.Line;
+import net.net16.jeremiahlowe.bettercollections.Rotation;
 import net.net16.jeremiahlowe.bettercollections.vector.Vector2;
 import net.net16.jeremiahlowe.fighters.Fighters;
 import net.net16.jeremiahlowe.fighters.GraphicsUtil;
-import net.net16.jeremiahlowe.fighters.Rotation;
 import net.net16.jeremiahlowe.fighters.bullet.Bullet;
 import net.net16.jeremiahlowe.fighters.bullet.BulletController;
 import net.net16.jeremiahlowe.fighters.physics.BaseCollider;
 
 public class Fighter extends BaseCollider{
+	public static final float FIGHTER_OFFSCREEN_SCORE = -3f;
+	public static final float FIGHTER_TARGETTING_SCORE = 0.1f;
+	public static final float FIGHTER_KEEP_TARGET_SCORE = 0f;
 	public Vector2 position = new Vector2(0, 0);
 	public Vector2 velocity = new Vector2(0, 0);
 	public Rotation fov = new Rotation(30);
@@ -27,6 +30,7 @@ public class Fighter extends BaseCollider{
 	public Team[] enemyTeams;
 	public float speed = 2.5f;
 	public float turnSpeed = 3f;
+	private int lastAmountOfEnemiesInFrontOfFighter = 0;
 	
 	public Fighter(Vector2 position, Rotation looking, Team team, boolean visible){
 		this.position = position;
@@ -101,10 +105,11 @@ public class Fighter extends BaseCollider{
 				inFrontOf.add(f);
 			}
 		}
-		if(inFrontOf.size() >= 1){
+		if(inFrontOf.size() >= 1 && inFrontOf.size() != lastAmountOfEnemiesInFrontOfFighter){
 			FighterController f = FighterController.findFighterController(this);
 			if(f != null){
-				f.gene.score += 0.1f;
+				lastAmountOfEnemiesInFrontOfFighter = inFrontOf.size();
+				f.gene.score += FIGHTER_KEEP_TARGET_SCORE;
 				System.out.println("Found a target, Adding score");
 			}
 		}
@@ -121,7 +126,7 @@ public class Fighter extends BaseCollider{
 		if(target != null && target != oldTarget){
 			FighterController f = FighterController.findFighterController(this);
 			if(f != null){
-				f.gene.score += 0.1f;
+				f.gene.score += FIGHTER_TARGETTING_SCORE;
 				System.out.println("New target acquired, Adding score");
 			}
 		}
@@ -129,6 +134,14 @@ public class Fighter extends BaseCollider{
 	public void stepVelocity(){
 		position.x += velocity.x;
 		position.y += velocity.y;
+		int w = Fighters.gui.drawCanvas.getWidth(), h = Fighters.gui.drawCanvas.getHeight();
+		if(position.x <= 0 || position.y <= 0 || position.x >= w || position.y >= h){
+			position.x = w / 2;
+			position.y = h / 2;
+			FighterController f = FighterController.findFighterController(this);
+			f.gene.score += FIGHTER_OFFSCREEN_SCORE;
+			System.out.println("Fighter went offscreen, discounting points!");
+		}
 	}
 	public boolean isOnSides(){
 		if(position.x < fighterSize / 2) return true;

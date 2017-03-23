@@ -7,7 +7,6 @@ import net.net16.jeremiahlowe.fighters.fighter.Team;
 public class GenerationController {
 	public static Team[] teams = Team.values();
 	public static int playersPerTeam = 1;
-	
 	public static synchronized void killCurrentGeneration(){
 		for(FighterController f : FighterController.getFighterControllers()){
 			FighterController.unregisterFighter(f, true);
